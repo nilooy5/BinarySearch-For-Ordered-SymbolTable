@@ -430,6 +430,18 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    private static void createSTforName(BinarySearchST st) {
+        st.put("M", 0);
+        st.put("U", 1);
+        st.put("N", 2);
+        st.put("I", 3);
+        st.put("R", 4);
+        st.put("A", 5);
+        st.put("T", 6);
+        st.put("A", 7);
+        st.put("B", 8);
+        st.put("A", 9);
+    }
     /**
      * Unit tests the {@code BinarySearchST} data type.
      *
@@ -441,19 +453,12 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
             String key = StdIn.readString();
             st.put(key, i);
         }*/
-        st.put("M", 0);
-        st.put("U", 1);
-        st.put("N", 2);
-        st.put("I", 3);
-        st.put("R", 4);
-        st.put("A", 5);
-        st.put("T", 6);
-        st.put("A", 7);
-        st.put("B", 8);
-        st.put("A", 9);
+        StdOut.println("This output was generate by Munira Tabassum");
+        StdOut.println("Weekly assignment 6, task 3");
+        createSTforName(st);
         for (String s : st.keys())
             StdOut.println(s + " " + st.get(s));
-        // checkExistingName(st);
+        checkExistingName(st);
     }
 }
 
