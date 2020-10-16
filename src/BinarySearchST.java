@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 /*
  *  Compilation:  javac BinarySearchST.java
  *  Execution:    java BinarySearchST
@@ -66,7 +67,7 @@ import java.util.NoSuchElementException;
 public class BinarySearchST<Key extends Comparable<Key>, Value> {
     private static final int INIT_CAPACITY = 2;
     private Key[] keys;
-    private Value[] vals;
+    private double[] vals;
     private int n = 0;
 
     /**
@@ -82,7 +83,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
      */
     public BinarySearchST(int capacity) {
         keys = (Key[]) new Comparable[capacity];
-        vals = (Value[]) new Object[capacity];
+        vals = new double[capacity];
     }
 
     /**
@@ -91,7 +92,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     private void resize(int capacity) {
         assert capacity >= n;
         Key[]   tempk = (Key[])   new Comparable[capacity];
-        Value[] tempv = (Value[]) new Object[capacity];
+        double[] tempv = new double[capacity];
         for (int i = 0; i < n; i++) {
             tempk[i] = keys[i];
             tempv[i] = vals[i];
@@ -128,7 +129,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
      */
     public boolean contains(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to contains() is null");
-        return get(key) != null;
+        return get(key) != -1;
     }
 
     /**
@@ -139,12 +140,12 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
      *         and {@code null} if the key is not in the symbol table
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
-    public Value get(Key key) {
+    public double get(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
-        if (isEmpty()) return null;
+        if (isEmpty()) return -1;
         int i = rank(key);
         if (i < n && keys[i].compareTo(key) == 0) return vals[i];
-        return null;
+        return -1;
     }
 
     /**
@@ -178,10 +179,10 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
      * @param  val the value
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
-    public void put(Key key, Value val)  {
+    public void put(Key key, double val)  {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
 
-        if (val == null) {
+        if (val == -1) {
             delete(key);
             return;
         }
@@ -234,7 +235,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
         n--;
         keys[n] = null;  // to avoid loitering
-        vals[n] = null;
+        vals[n] = -1;
 
         // resize if 1/4 full
         if (n > 0 && n == keys.length/4) resize(keys.length/2);
@@ -423,11 +424,44 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     private static void checkExistingName(BinarySearchST st) {
         String[] alphabet = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
         for (String alpha : Arrays.asList(alphabet)) {
-            if (st.get(alpha) != null) {
+            if (st.get(alpha) != -1) {
                 StdOut.println(alpha + " - " + st.get(alpha) + "th letter");
             }
             else StdOut.println(alpha + " - not found");
         }
+    }
+
+    /**
+     *
+     * @param st a symbol table for scores
+     * @return average score
+     */
+    private static double getAverageScore(BinarySearchST st) {
+
+        double sum = 0;
+        Scanner input = new Scanner(System.in);
+        StdOut.println("enter number of courses: ");
+        int count = input.nextInt();
+        input.nextLine();
+
+        for (int i = 0; i < count; i++) {
+            StdOut.println("course " + (i+1) + " :\t");
+            sum = sum + st.get(input.next());
+        }
+        return sum/count;
+    }
+
+    private static void makeGradesTable(BinarySearchST st) {
+        st.put("A", 4.00);
+        st.put("A-", 3.67);
+        st.put("B+", 3.33);
+        st.put("B", 3.00);
+        st.put("B-", 2.67);
+        st.put("C+", 2.33);
+        st.put("C", 2.00);
+        st.put("C-", 1.67);
+        st.put("D", 1.00);
+        st.put("F", 0.00);
     }
 
     /**
@@ -437,23 +471,13 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
      */
     public static void main(String[] args) {
         BinarySearchST<String, Integer> st = new BinarySearchST<String, Integer>();
-        /*for (int i = 0; !StdIn.isEmpty(); i++) {
-            String key = StdIn.readString();
-            st.put(key, i);
-        }*/
-        st.put("M", 0);
-        st.put("U", 1);
-        st.put("N", 2);
-        st.put("I", 3);
-        st.put("R", 4);
-        st.put("A", 5);
-        st.put("T", 6);
-        st.put("A", 7);
-        st.put("B", 8);
-        st.put("A", 9);
-        for (String s : st.keys())
-            StdOut.println(s + " " + st.get(s));
-        // checkExistingName(st);
+        makeGradesTable(st);
+
+        StdOut.println("Grading Table:");
+        for (String s : st.keys()) {
+            StdOut.println(s + "\t" + st.get(s));
+        }
+        StdOut.println("Your Average GPA is : " + getAverageScore(st));
     }
 }
 
