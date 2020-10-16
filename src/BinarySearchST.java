@@ -1,5 +1,6 @@
+import java.util.Arrays;
 import java.util.NoSuchElementException;
-/**
+/*
  *  Compilation:  javac BinarySearchST.java
  *  Execution:    java BinarySearchST
  *  Dependencies: StdIn.java StdOut.java
@@ -84,7 +85,9 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         vals = (Value[]) new Object[capacity];
     }
 
-    // resize the underlying arrays
+    /**
+     * resize the underlying arrays
+     */
     private void resize(int capacity) {
         assert capacity >= n;
         Key[]   tempk = (Key[])   new Comparable[capacity];
@@ -98,8 +101,6 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     }
 
     /**
-     * Returns the number of key-value pairs in this symbol table.
-     *
      * @return the number of key-value pairs in this symbol table
      */
     public int size() {
@@ -166,8 +167,6 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         }
         return lo;
     }
-
-
 
     /**
      * Inserts the specified key-value pair into the symbol table, overwriting the old
@@ -264,12 +263,11 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     }
 
 
-    /**
+    /*
      *  Ordered symbol table methods.
      **/
 
     /**
-     * Returns the smallest key in this symbol table.
      *
      * @return the smallest key in this symbol table
      * @throws NoSuchElementException if this symbol table is empty
@@ -280,7 +278,6 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     }
 
     /**
-     * Returns the largest key in this symbol table.
      *
      * @return the largest key in this symbol table
      * @throws NoSuchElementException if this symbol table is empty
@@ -420,6 +417,19 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         return true;
     }
 
+    /**
+     * @param st A binary symbol table
+     */
+    private static void checkExistingName(BinarySearchST st) {
+        String[] alphabet = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+        for (String alpha : Arrays.asList(alphabet)) {
+            if (st.get(alpha) != null) {
+                StdOut.println(alpha + " - " + st.get(alpha) + "th letter");
+            }
+            else StdOut.println(alpha + " - not found");
+        }
+    }
+
 
     /**
      * Unit tests the {@code BinarySearchST} data type.
@@ -444,6 +454,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         st.put("A", 9);
         for (String s : st.keys())
             StdOut.println(s + " " + st.get(s));
+        // checkExistingName(st);
     }
 }
 
