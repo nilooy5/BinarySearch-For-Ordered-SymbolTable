@@ -472,6 +472,9 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     public static void main(String[] args) {
         BinarySearchST<String, Integer> st = new BinarySearchST<String, Integer>();
         makeGradesTable(st);
+        StdOut.println("This output was generate by Munira Tabassum");
+        StdOut.println("Weekly assignment 6, task 4");
+        StdOut.println();
 
         StdOut.println("Grading Table:");
         for (String s : st.keys()) {
