@@ -453,8 +453,6 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
             String key = StdIn.readString();
             st.put(key, i);
         }*/
-        StdOut.println("This output was generate by Munira Tabassum");
-        StdOut.println("Weekly assignment 6, task 3");
         createSTforName(st);
         for (String s : st.keys())
             StdOut.println(s + " " + st.get(s));
